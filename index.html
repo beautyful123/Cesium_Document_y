@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 图片切换示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <style>
+        body, #app {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        /* 导航栏样式 */
+        .sidebar {
+            width: 200px;
+            background-color: #2c3e50;
+            height: 100vh;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            color: white;
+            position: fixed;
+            z-index: 100;
+            overflow: hidden;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            height: 100vh;
+            width: 220px;
+            overflow-y: scroll;
+        }
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+        .sidebar ul li button {
+            width: 100%;
+            padding: 10px;
+            background-color: #34495e;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+        .sidebar ul li button:hover {
+            background-color: #1abc9c;
+        }
+        /* 图片显示区域 */
+        .content {
+          flex-grow: 1;
+          /* padding: 20px; */
+            background-color: #ecf0f1;
+            position: fixed;
+            top: -100px;
+            left: -300px;
+            width: calc(100vw + 310px);
+            height: calc(100vh + 110px);
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+        .content img {
+            width: 150%;
+            height: auto;
+            display: none;
+        }
+        .content img.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <!-- 导航栏 -->
+        <div class="sidebar">
+            <ul>
+                <li v-for="(image, index) in images" :key="index">
+                    <button @click="currentImage = index">{{ image}}</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 图片展示区域 -->
+        <div class="content">
+            <img v-for="(image, index) in images" :src="`./${image}.png`" :alt="(index + 1)" :class="{ active: currentImage === index }">
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentImage: 0, // 默认显示第一张图片
+                    images: [
+                      '1.1 Cesium介绍', '1.2 项目初始化', '1.3 Cesium源码目录及Viwer界面介绍', '1.4 Cesium最全API解析', '1.5 GIS基础',
+                      '2.1 Camera相机类使用详解', '2.2 加载地形、影像', '2.3 矢量数据介绍以及使用', '2.4 Cesium各类几何体的构建', '2.5 Cesium加载国产底图以及颜色修改', '2.6 Cesium中加载3D模型的多种方案',
+                      '3.1 Cesium各类事件系统详解', '3.2 各种Collection的作用和使用', '3.3 3D模型按自定义轨迹生产动画', '3.4 Primitive高性能图元详解',
+                      '4.1 几何体外观材质类详解', '4.2 如何封装自定义材质类', '4.3 shp数据渲染城市白模并美化',
+                      '前言'
+                    ]
+                }
+            }
+        }).mount('#app');
+    </script>
+
+</body>
+</html>
